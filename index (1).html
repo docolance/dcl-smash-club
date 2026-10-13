@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DCL Smash Club — スマブラをもっと楽しく。オンライン対戦・交流会・オフ対戦会を楽しむスマブラSPサークルです。">
+  <title>DCL Smash Club | スマブラを、もっと楽しく。</title>
+  <style>
+    :root {
+      --paper: #f5f4ef;
+      --ink: #111315;
+      --muted: #555b60;
+      --line: #d7d6cf;
+      --red: #e5482e;
+      --teal: #00c9bd;
+      --dark: #101316;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+              "Yu Gothic", Meiryo, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.8;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+    header {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      font: 700 13px var(--mono);
+      letter-spacing: .12em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    nav { display: flex; gap: 28px; }
+    nav a {
+      font: 12px var(--mono);
+      letter-spacing: .05em;
+      text-decoration: none;
+      color: #44494c;
+    }
+    nav a:hover { color: var(--red); }
+    .hero {
+      min-height: 560px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      padding: 72px 0;
+    }
+    .hero-copy { position: relative; z-index: 2; }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--red);
+      color: white;
+      font: 700 11px var(--mono);
+      letter-spacing: .04em;
+    }
+    h1 {
+      margin: 22px 0 22px;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.13;
+      letter-spacing: -.06em;
+      font-weight: 900;
+    }
+    h1 span { display: block; color: var(--red); }
+    .hero-copy p {
+      max-width: 570px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 2;
+    }
+    .hero-art {
+      min-height: 390px;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 42%;
+      background: var(--teal);
+      clip-path: polygon(58% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .hero-circle {
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: 9%;
+      top: 42%;
+      border-radius: 50%;
+      background: var(--dark);
+      color: var(--teal);
+      display: grid;
+      place-items: center;
+      text-align: left;
+      font: 700 13px/1.7 var(--mono);
+      letter-spacing: .03em;
+      transform: rotate(7deg);
+    }
+    section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 42px;
+      margin-bottom: 38px;
+    }
+    .eyebrow {
+      color: var(--red);
+      font: 700 12px var(--mono);
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.35;
+      letter-spacing: -.04em;
+    }
+    .section-text { color: var(--muted); margin: 0; }
+    .members-note { margin-top: 18px; color: var(--ink); font-weight: 700; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card {
+      border: 1px solid var(--line);
+      padding: 25px 24px;
+      min-height: 190px;
+      background: rgba(255,255,255,.22);
+    }
+    .card .number {
+      display: block;
+      color: var(--red);
+      font: 700 11px var(--mono);
+      letter-spacing: .08em;
+      margin-bottom: 25px;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 23px; line-height: 1.4; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .member-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .member-card { border: 1px solid var(--line); padding: 24px; min-height: 220px; }
+    .member-card .label {
+      display: block; color: var(--red); font: 700 11px var(--mono);
+      letter-spacing: .08em; margin-bottom: 22px;
+    }
+    .member-card h3 { margin: 0 0 12px; font-size: 25px; line-height: 1.35; }
+    .member-card p { margin: 6px 0; color: var(--muted); font-size: 14px; }
+    .rules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    .rule { padding: 22px 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .rule .eyebrow { margin-bottom: 8px; font-size: 11px; }
+    .rule p { margin: 0; color: var(--muted); }
+    .join {
+      background: var(--dark);
+      color: white;
+      border: 0;
+      padding: 72px 0 34px;
+    }
+    .join .eyebrow { color: var(--teal); }
+    .join h2 { font-size: clamp(34px, 5vw, 54px); }
+    .join-content { display: flex; justify-content: space-between; align-items: end; gap: 30px; }
+    .join p { color: #d2d6d7; max-width: 620px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 22px;
+      background: var(--teal);
+      color: #062322;
+      text-decoration: none;
+      font: 700 13px var(--mono);
+      transition: transform .2s, background .2s;
+      white-space: nowrap;
+    }
+    .button:hover { transform: translateY(-3px); background: #45e7dc; }
+    footer {
+      margin-top: 90px;
+      padding-top: 22px;
+      border-top: 1px solid #34393b;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #d2d6d7;
+      font: 700 12px var(--mono);
+      letter-spacing: .06em;
+    }
+    @media (max-width: 700px) {
+      .wrap { width: min(100% - 32px, 560px); }
+      header { height: 68px; }
+      nav { gap: 12px; }
+      nav a { font-size: 10px; }
+      .hero { min-height: 610px; display: block; padding: 64px 0 300px; }
+      .hero-art { top: auto; bottom: 0; width: 78%; height: 270px; min-height: 0; }
+      .hero-circle { width: 145px; height: 145px; right: 8%; top: auto; bottom: 50px; font-size: 11px; }
+      .hero-copy p { font-size: 14px; }
+      section { padding: 64px 0; }
+      .section-head { grid-template-columns: 1fr; gap: 18px; }
+      .cards, .member-grid { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+      .card .number { margin-bottom: 12px; }
+      .rules { grid-template-columns: 1fr; }
+      .join-content { display: block; }
+      .button { margin-top: 14px; }
+      footer { margin-top: 60px; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="#top">DCL SMASH CLUB</a>
+    <nav aria-label="メインナビゲーション">
+      <a href="#about">ABOUT</a>
+      <a href="#activity">ACTIVITY</a>
+      <a href="#join">JOIN</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero wrap" id="top">
+      <div class="hero-copy">
+        <span class="tag">SUPER SMASH BROS. ULTIMATE</span>
+        <h1>スマブラを、<span>もっと楽しく。</span></h1>
+        <p>DCL Smash Clubは、オンライン対戦や専用部屋、オフ対戦会をゆるく楽しむスマブラSPサークルです。</p>
+      </div>
+      <div class="hero-art" aria-hidden="true"></div>
+      <div class="hero-circle" aria-hidden="true">PLAY KIND.<br>PLAY MORE.<br>JOIN DCL.</div>
+    </div>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">01 / ABOUT</div>
+            <h2>気軽に遊べる<br>場所です。</h2>
+          </div>
+          <div>
+            <p class="section-text">実力やレートは問いません。対戦が好きな人、もっと上手くなりたい人、オフ対戦会に行ってみたい人。どんな人も歓迎です。気持ちのいい試合を通して、スマブラをもっと楽しもう。</p>
+            <p class="members-note">現在のメンバー：DoCola／どこーら／あさんず</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="activity">
+      <div class="wrap">
+        <div class="eyebrow">02 / ACTIVITY</div>
+        <h2 style="margin-bottom:32px">こんなことをします。</h2>
+        <div class="cards">
+          <article class="card">
+            <span class="number">01</span>
+            <h3>オンライン対戦</h3>
+            <p>専用部屋や対戦募集。都合の合う人同士で、気軽にもう一戦。</p>
+          </article>
+          <article class="card">
+            <span class="number">02</span>
+            <h3>オフ対戦会</h3>
+            <p>大会や対戦会にも参加。はじめての人も、無理のない範囲で歓迎です。</p>
+          </article>
+          <article class="card">
+            <span class="number">03</span>
+            <h3>交流</h3>
+            <p>対戦の感想、キャラ対策、イベント情報などをゆるく共有します。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="members">
+      <div class="wrap">
+        <div class="eyebrow">03 / MEMBERS</div>
+        <h2 style="margin-bottom:32px">メンバー紹介。</h2>
+        <div class="member-grid">
+          <article class="member-card">
+            <span class="label">MEMBER 01</span>
+            <h3>DoCola<br>／どこーら</h3>
+            <p>メイン：ロボット</p>
+            <p>サブ：スティーブ</p>
+          </article>
+          <article class="member-card">
+            <span class="label">RESULT</span>
+            <h3>最高レート<br>1789</h3>
+            <p>戦闘力：神1</p>
+          </article>
+          <article class="member-card">
+            <span class="label">OFFLINE</span>
+            <h3>大会参加</h3>
+            <p>ウメブラSP13／上野スマコミ等に参加</p>
+          </article>
+          <article class="member-card">
+            <span class="label">MEMBER 02</span>
+            <h3>あさんず</h3>
+            <p>メイン：マリオ</p>
+            <p>サブ：なし</p>
+          </article>
+          <article class="member-card">
+            <span class="label">RESULT</span>
+            <h3>最高レート<br>1500</h3>
+            <p>最高戦闘力：魔境卒業</p>
+          </article>
+          <article class="member-card">
+            <span class="label">OFFLINE</span>
+            <h3>大会参加なし</h3>
+            <p>これから参加予定</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="wrap">
+        <div class="eyebrow">04 / CLUB RULES</div>
+        <h2 style="margin-bottom:32px">みんなで守ること。</h2>
+        <div class="rules">
+          <div class="rule"><div class="eyebrow">01 / RESPECT</div><p>煽り、暴言、相手を不快にする行為はしません。</p></div>
+          <div class="rule"><div class="eyebrow">02 / WELCOME</div><p>実力・レート・使用キャラに関係なく歓迎します。</p></div>
+          <div class="rule"><div class="eyebrow">03 / EASYGOING</div><p>参加も退出も自由。無理のないペースで楽しみます。</p></div>
+          <div class="rule"><div class="eyebrow">04 / PLAY FAIR</div><p>対戦相手へのリスペクトを忘れず、楽しい場をつくります。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="join" id="join">
+      <div class="wrap">
+        <div class="eyebrow">05 / JOIN DCL</div>
+        <div class="join-content">
+          <div>
+            <h2>一緒に、<br>スマブラやろう。</h2>
+            <p>Xで「サークル入りたい」とリプまたはDMしてください。<br>年齢・本名・住所などの個人情報は不要です。</p>
+          </div>
+          <a class="button" href="https://x.com/docolance" target="_blank" rel="noopener noreferrer">@docolance に連絡する ↗</a>
+        </div>
+        <footer>
+          <span>DCL SMASH CLUB / EST. 2026</span>
+          <span>PLAY KIND. PLAY MORE.</span>
+        </footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
